@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>jQuery Bootstrap News Box Plugin Demos</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+      <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+      <link href="http://www.jqueryscript.net/demo/Responsive-jQuery-News-Ticker-Plugin-with-Bootstrap-3-Bootstrap-News-Box/css/site.css" rel="stylesheet" type="text/css">
+      <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+      <script src="https://pagead2.googlesyndication.com/pub-config/r20160913/ca-pub-2783044520727903.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+      <script src="http://www.jqueryscript.net/demo/Responsive-jQuery-News-Ticker-Plugin-with-Bootstrap-3-Bootstrap-News-Box/scripts/jquery.bootstrap.newsbox.min.js" type="text/javascript"></script>
+      <style type="text/css">
+         .backpack.dropzone {
+         font-family: 'SF UI Display', 'Segoe UI';
+         font-size: 15px;
+         text-align: center;
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         align-items: center;
+         width: 250px;
+         height: 150px;
+         font-weight: lighter;
+         color: white;
+         will-change: right;
+         z-index: 2147483647;
+         bottom: 20%;
+         background: #333;
+         position: fixed;
+         user-select: none;
+         transition: left .5s, right .5s;
+         right: 0px; }
+         .backpack.dropzone .animation {
+         height: 80px;
+         width: 250px;
+         background: url("https://sxt.cdn.skype.com/assets/dropzone/hoverstate.png") left center; }
+         .backpack.dropzone .title::before {
+         content: 'Save to'; }
+         .backpack.dropzone.closed {
+         right: -250px; }
+         .backpack.dropzone.hover .animation {
+         animation: sxt-play-anim-hover 0.91s steps(21);
+         animation-fill-mode: forwards;
+         background: url("https://sxt.cdn.skype.com/assets/dropzone/hoverstate.png") left center; }
+         @keyframes sxt-play-anim-hover {
+         from {
+         background-position: 0px; }
+         to {
+         background-position: -5250px; } }
+         .backpack.dropzone.saving .title::before {
+         content: 'Saving to'; }
+         .backpack.dropzone.saving .animation {
+         background: url("https://sxt.cdn.skype.com/assets/dropzone/saving_loop.png") left center;
+         animation: sxt-play-anim-saving steps(59) 2.46s infinite; }
+         @keyframes sxt-play-anim-saving {
+         100% {
+         background-position: -14750px; } }
+         .backpack.dropzone.saved .title::before {
+         content: 'Saved to'; }
+         .backpack.dropzone.saved .animation {
+         background: url("https://sxt.cdn.skype.com/assets/dropzone/saved.png") left center;
+         animation: sxt-play-anim-saved steps(20) 0.83s forwards; }
+         @keyframes sxt-play-anim-saved {
+         100% {
+         background-position: -5000px; } }
+      </style>
+      <script>
+         $(document).ready(function(){
+          $.ajax({ 
+         type: "GET",
+         url: "/headlines"
+         ,
+         success: function(data, textStatus, XmlHttpRequest) {
+             console.log(data);
+             //parsing data
+             //var jsonData = JSON.parse(data);
+             for (var i = 0; i < data.length; i++) {
+                 var counter = data[i];
+                 if(nheadin != 'undefined'){
+                 $("#nheadin"+i).text(counter["heading"]);
+             }
+                 
+                /* console.log(counter["heading"]);
+                 console.log(counter["news_description"]);
+                 var liItem = '';
+                  if(i<4){
+                 $("#news-scroll").css("height",i*40+"px");
+                 liItem = '<li style="" class="news-item">';
+         
+             }else{
+                 liItem = '<li style=display:none;" class="news-item">';
+             }
+                 $("#news-scroll").append(liItem+
+                         '<table cellpadding="4">'+
+                         '<tbody>'+
+                         '<tr>'+
+                         '<td><img src="images/7.png" width="60" class="img-circle"></td>'+
+                         '<td>'+counter["heading"]+'<a href="#">Read more...</a></td>'+
+                         '</tr>'+
+                         '</tbody></table>'+
+                         '</li>'
+                         );*/
+                
+             }
+             //parsing data
+          if (XmlHttpRequest.status === 200) {
+              var response = XmlHttpRequest.responseText;
+          }
+         },
+         error: function(XMLHttpRequest, textStatus, errorThrown) {
+          alert("error:"+Thrown);
+         }
+         
+         });
+         }
+         );
+ $(document).ready(function(){
+ $(".rmlink").click(function(){
+ });
+ });
+      </script>
+   </head>
+   <body>
+      <div>Headlines</div>
+      <!-- <form action="../headlines" method="post" id="login-or-signup">
+         <input type="submit" value="Display News"/>
+         </form>-->
+      <div class="container">
+         <div class="row">
+            <div class="col-md-4">
+               <div class="panel panel-default">
+                  <div class="panel-heading"> <span class="glyphicon glyphicon-list-alt"></span><b>తాజా వార్తలు</b></div>
+                  <div class="panel-body">
+                     <div class="row">
+                        <div class="col-xs-12">
+                           <ul class="demo1" style="overflow-y: hidden;"> 
+                              <li style="" class="news-item">
+                                 <table cellpadding="4">
+                                    <tbody>
+                                       <tr>
+                                          <td><img src="images/1.png" width="60" class="img-circle"></td>
+                                          <td><a class="rmlink" href="#"><span id="nheadin1"></span></a></td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </li>
+                              <li style="" class="news-item">
+                                 <table cellpadding="4">
+                                    <tbody>
+                                       <tr>
+                                          <td><img src="images/2.png" width="60" class="img-circle"></td>
+                                          <td><a class="rmlink" href="#"><span id="nheadin2"></span></a></td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </li>
+                              <li style="" class="news-item">
+                                 <table cellpadding="4">
+                                    <tbody>
+                                       <tr>
+                                          <td><img src="images/3.png" width="60" class="img-circle"></td>
+                                          <td><a class="rmlink" href="#"><span id="nheadin3"></span></a></td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </li>
+                              <li style="display:none;" class="news-item">
+                                 <table cellpadding="4">
+                                    <tbody>
+                                       <tr>
+                                          <td><img src="images/4.png" width="60" class="img-circle"></td>
+                                          <td><a class="rmlink" href="#"><span id="nheadin4"></span></a></td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </li>
+                              <li style="display:none;" class="news-item">
+                                 <table cellpadding="4">
+                                    <tbody>
+                                       <tr>
+                                          <td><img src="images/5.png" width="60" class="img-circle"></td>
+                                          <td><a class="rmlink" href="#"><span id="nheadin5"></span></a></td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </li>
+                              <li style="display:none;" class="news-item">
+                                 <table cellpadding="4">
+                                    <tbody>
+                                       <tr>
+                                          <td><img src="images/6.png" width="60" class="img-circle"></td>
+                                          <td><a class="rmlink" href="#"><span id="nheadin6"></span></a></td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </li>
+                              <li style="display:none;" class="news-item">
+                                 <table cellpadding="4">
+                                    <tbody>
+                                       <tr>
+                                          <td><img src="images/7.png" width="60" class="img-circle"></td>
+                                          <td><a class="rmlink" href="#"><span id="nheadin7"></span></a></td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      
+       <script type="text/javascript">
+         $(function () {
+             $(".demo1").bootstrapNews({
+                 newsPerPage: 6,
+                 autoplay: true,
+         		 pauseOnHover:true,
+                 direction: 'up',
+                 newsTickerInterval: 4000,
+                 onToDo: function () {
+                     //console.log(this);
+                 }
+             });
+         });
+         
+     </script>
+   </body>
+</html>
