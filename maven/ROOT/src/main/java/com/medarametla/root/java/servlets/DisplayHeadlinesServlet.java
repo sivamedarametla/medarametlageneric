@@ -21,12 +21,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import org.json.JSONWriter;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.apache.commons.codec.binary.Base64;
+
 
 /**
  *
@@ -66,6 +69,19 @@ public class DisplayHeadlinesServlet extends HttpServlet {
                         headingNewsPair.put("news_description", rs.getString(3));
                         //news.put("news"+newsCounter, headingNewsPair);
                         System.out.println("value..........:"+rs.getString(2));
+                        headingNewsPair.put("article_type", rs.getString(5));
+                        System.out.println("article type..........:"+rs.getString(5));
+                        Blob blob = rs.getBlob("photo");
+                        if(blob != null){
+                        System.out.println("blob:"+blob);
+                        int blobLength = (int) blob.length();  
+                        byte[] blobAsBytes = blob.getBytes(1, blobLength);
+                        //release the blob and free up memory. (since JDBC 4.0)
+                        blob.free();
+                        String imageString = Base64.encodeBase64String(blobAsBytes);
+                        headingNewsPair.put("photo", "data:image/png;base64,"+imageString);
+                        System.out.println("imageString:"+imageString);
+                        }
                         latestNews.put(headingNewsPair);    
                         newsCounter++;
     }

@@ -129,32 +129,35 @@
              for (var i = 0; i < data.length; i++) {
                  var counter = data[i];
                  console.log("heading:"+counter["heading"]);
-                                  if(counter["heading"] != 'undefined'){
+                                  if(counter["heading"] != 'undefined' && counter["article_type"] == 'news'){
                  $("#nheadin"+i).text(counter["heading"]);
+                 $("#scrollimg"+i).attr("src",counter["photo"]);
              }
-                 
-                /* console.log(counter["heading"]);
-                 console.log(counter["news_description"]);
-                 var liItem = '';
-                  if(i<4){
-                 $("#news-scroll").css("height",i*40+"px");
-                 liItem = '<li style="" class="news-item">';
-         
-             }else{
-                 liItem = '<li style=display:none;" class="news-item">';
              }
-                 $("#news-scroll").append(liItem+
-                         '<table cellpadding="4">'+
-                         '<tbody>'+
-                         '<tr>'+
-                         '<td><img src="images/7.png" width="60" class="img-circle"></td>'+
-                         '<td>'+counter["heading"]+'<a href="#">Read more...</a></td>'+
-                         '</tr>'+
-                         '</tbody></table>'+
-                         '</li>'
-                         );*/
-                
+             //center carousel population
+             var addedCenterElements = 0;
+             for (var i = 0; i < data.length; i++) {
+                 var counter = data[i];
+                 console.log("heading:"+counter["heading"]);
+                                  if(counter["heading"] != 'undefined' && counter["article_type"] == 'article'){
+                                      if(addedCenterElements==0){
+                     var carElement = '<div class="item active">'+
+                        '<img src="'+counter["photo"]+'" alt="" style="width:100%;" height="200">'+
+                        '<h5 class="news-line">'+counter["heading"]+'</h5>'+
+                        '</div>';
+                 $("#center-carousel").append(carElement);
+                 addedCenterElements = addedCenterElements + 1;
+                                      }else{
+                                          var carElement = '<div class="item">'+
+                        '<img  src="'+counter["photo"]+'" alt="" style="width:100%;" height="200">'+
+                        '<h5 class="news-line">'+counter["heading"]+'</h5>'+
+                        '</div>';
+                 $("#center-carousel").append(carElement);
+                 addedCenterElements = addedCenterElements + 1;
+                                      }
              }
+             }
+             //center carousel population
              //parsing data
           if (XmlHttpRequest.status === 200) {
               var response = XmlHttpRequest.responseText;
@@ -285,19 +288,8 @@
                      <li data-target="#myCarouselm" data-slide-to="2"></li>
                   </ol>
                   <!-- Wrapper for slides -->
-                  <div class="carousel-inner">
-                     <div class="item active">
-                        <img src="../images/parents-marriage.jpg" alt="Los Angeles" style="width:100%;">
-                        <h5 class="news-line">My parents marriage photo..</h5>
-                     </div>
-                     <div class="item">
-                        <img src="../images/family1.jpg" alt="Chicago" style="width:100%;">
-                        <h5 class="news-line">Me with my Niece and Nephew..</h5>
-                     </div>
-                     <div class="item">
-                        <img src="../images/yamaha-bike.jpg" alt="New york" style="width:100%;">
-                        <h5 class="news-line">My bike..</h5>
-                     </div>
+                  <div id="center-carousel" class="carousel-inner">
+                     
                   </div>
                   <!-- Left and right controls -->
                   <a class="left carousel-control" href="#myCarouselm" data-slide="prev">
@@ -324,7 +316,7 @@
                                  <table cellpadding="4">
                                     <tbody>
                                        <tr>
-                                          <td><img src="images/1.png" width="60" class="img-circle"></td>
+                                          <td><img id="scrollimg1" src="" width="60" class="img-circle"></td>
                                           <td><a class="rmlink" href="#"><span id="nheadin1"></span></a></td>
                                        </tr>
                                     </tbody>
@@ -334,7 +326,7 @@
                                  <table cellpadding="4">
                                     <tbody>
                                        <tr>
-                                          <td><img src="images/2.png" width="60" class="img-circle"></td>
+                                          <td><img id="scrollimg2" src="" width="60" class="img-circle"></td>
                                           <td><a class="rmlink" href="#"><span id="nheadin2"></span></a></td>
                                        </tr>
                                     </tbody>
@@ -344,7 +336,7 @@
                                  <table cellpadding="4">
                                     <tbody>
                                        <tr>
-                                          <td><img src="images/3.png" width="60" class="img-circle"></td>
+                                          <td><img id="scrollimg3" src="" width="60" class="img-circle"></td>
                                           <td><a class="rmlink" href="#"><span id="nheadin3"></span></a></td>
                                        </tr>
                                     </tbody>
@@ -354,7 +346,7 @@
                                  <table cellpadding="4">
                                     <tbody>
                                        <tr>
-                                          <td><img src="images/4.png" width="60" class="img-circle"></td>
+                                          <td><img id="scrollimg4" src="" width="60" class="img-circle"></td>
                                           <td><a class="rmlink" href="#"><span id="nheadin4"></span></a></td>
                                        </tr>
                                     </tbody>
@@ -364,7 +356,7 @@
                                  <table cellpadding="4">
                                     <tbody>
                                        <tr>
-                                          <td><img src="images/5.png" width="60" class="img-circle"></td>
+                                          <td><img id="scrollimg5" src="" width="60" class="img-circle"></td>
                                           <td><a class="rmlink" href="#"><span id="nheadin5"></span></a></td>
                                        </tr>
                                     </tbody>
@@ -374,7 +366,7 @@
                                  <table cellpadding="4">
                                     <tbody>
                                        <tr>
-                                          <td><img src="images/6.png" width="60" class="img-circle"></td>
+                                          <td><img id="scrollimg6" src="" width="60" class="img-circle"></td>
                                           <td><a class="rmlink" href="#"><span id="nheadin6"></span></a></td>
                                        </tr>
                                     </tbody>
@@ -384,7 +376,7 @@
                                  <table cellpadding="4">
                                     <tbody>
                                        <tr>
-                                          <td><img src="images/7.png" width="60" class="img-circle"></td>
+                                          <td><img id="scrollimg7" src="" width="60" class="img-circle"></td>
                                           <td><a class="rmlink" href="#"><span id="nheadin7"></span></a></td>
                                        </tr>
                                     </tbody>
@@ -402,4 +394,4 @@
       </div>
    </body>
 </html>
-<!--Dedicated to S-->
+<!--Dedicated to SHYM-->
