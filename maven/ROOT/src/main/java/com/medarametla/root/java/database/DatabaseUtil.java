@@ -24,11 +24,16 @@ public class DatabaseUtil {
   Connection conn3 = null;
   try { 
    Class.forName("com.mysql.jdbc.Driver");
+   //String dbUrl = "jdbc:mysql://localhost:3306/medarametladb?useUnicode=true&characterEncoding=UTF-8";
    String dbUrl = "jdbc:mysql://localhost:3306/medarametladb?useUnicode=true&characterEncoding=UTF-8";
    Properties info = new Properties();
-   info.put("user", "root");
-   info.put("password", "admin");
-   conn3 = DriverManager.getConnection(dbUrl, info);
+   info.put("user", "siva");
+   info.put("password", "VuqIUrElxCHRsWrb");
+  //info.put("user", "root");
+  //info.put("password", "Myacchrssh@1");
+   System.out.println("In database util1....before getting connection:"+conn3);
+   conn3 = DriverManager.getConnection(dbUrl, info); 
+   System.out.println("In database util2...after getting connection:"+conn3);
    if (conn3 != null) {
     System.out.println("Connected to the database medarametladb........."+conn3);
    }

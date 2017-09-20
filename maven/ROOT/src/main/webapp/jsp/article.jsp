@@ -1,3 +1,18 @@
+<%-- 
+    Document   : article
+    Created on : 19 Aug, 2017, 3:18:21 PM
+    Author     : lenovo
+--%>
+
+<%@page import="java.sql.Blob"%>
+<%@page import="org.apache.commons.codec.binary.Base64"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="com.medarametla.root.java.database.DatabaseUtil"%>
+<%String imageString = null;%>
+
 <!doctype html>
 <html lang="en">
    <head>
@@ -131,9 +146,7 @@
                  console.log("heading:"+counter["heading"]);
                                   if(counter["heading"] != 'undefined' && counter["article_type"] == 'news'){
                  $("#nheadin"+i).text(counter["heading"]);
-                 //$("#scrollimg"+i).attr("src",counter["photo"]);
-                 $("#nheadin"+i).attr("data-href",counter["s_no"]);   
-                 $("#nheadin"+i).parent(".rmlink").attr("href","../jsp/article.jsp?newsId="+counter["s_no"]);
+                 $("#scrollimg"+i).attr("src",counter["photo"]);
              }
              }
              //center carousel population
@@ -201,13 +214,7 @@
          }
          );
  $(document).ready(function(){
- $(".news-item").click(function(){
-   /*  var newsId =  $(this).find(".heading-span").attr("data-href");
-    window.open("../jsp/article.jsp?newsId="+newsId, "_blank");*/
- });
- $(".heading-span").click(function(){
-    /*var newsId =  $(this).attr("data-href");
-    window.open("../jsp/article.jsp?newsId="+newsId, "_blank");*/
+ $(".rmlink").click(function(){
  });
  });
  
@@ -374,42 +381,46 @@
                   <a class="telugu" href="">మరిన్ని...</a> |
                </nav>
                 </div>
-<!-- Carousel starts here-->
-               <div id="myCarouselm" class="carousel slide" data-ride="carousel">
-                  <!-- Indicators -->
-                  <ol class="carousel-indicators">
-                     <li data-target="#myCarouselm" data-slide-to="0" class="active"></li>
-                     <li data-target="#myCarouselm" data-slide-to="1"></li>
-                     <li data-target="#myCarouselm" data-slide-to="2"></li>
-                  </ol>
-                  <!-- Wrapper for slides -->
-                  <div id="center-carousel" class="carousel-inner">
-                    <div class="item active">
-                        <img src="../images/parents-marriage.jpg" alt="Los Angeles" style="width:100%;">
-                        <h5 class="news-line">My parents marriage photo..</h5>
-                     </div>
-                     <!--<div class="item">
-                        <img src="../images/family1.jpg" alt="Chicago" style="width:100%;">
-                        <h5 class="news-line">Me with my Niece and Nephew..</h5>
-                     </div>-->
-                     <!--<div class="item">
-                        <img src="../images/yamaha-bike.jpg" alt="New york" style="width:100%;">
-                        <h5 class="news-line">My bike..</h5>
-                     </div>-->
-                  </div>
-                  <!-- Left and right controls -->
-                  <a class="left carousel-control" href="#myCarouselm" data-slide="prev">
-                  <span class="glyphicon glyphicon-chevron-left"></span>
-                  <span class="sr-only">Previous</span>
-                  </a>
-                  <a class="right carousel-control" href="#myCarouselm" data-slide="next">
-                  <span class="glyphicon glyphicon-chevron-right"></span>
-                  <span class="sr-only">Next</span>
-                  </a>
-               </div>
-               <!--Carousel ends here-->
+<!-- news description section-->
+<%DatabaseUtil dbUtil = new DatabaseUtil();
+Connection con = null;
+        System.out.println("before getting database connection in article.jsp:"+dbUtil);
+         con = dbUtil.getDbConnection();
+        System.out.println("con......in article.jsp"+con);
+        PreparedStatement ps = null;
+                    ps = con.prepareStatement(  
+                    "select news_heading,photo,news_description from news_latest where s_no="+Integer.parseInt(request.getParameter("newsId")));
+                    ResultSet rs = null;  
+                    rs = ps.executeQuery();
+        %>
+
+               <div id="news-desc-div" class="">
+                   <% while (rs.next()) {
+                   //reading image
+                   Blob blob = rs.getBlob("photo");
+                        if(blob != null){
+                        System.out.println("blob:"+blob);
+                        int blobLength = (int) blob.length();  
+                        byte[] blobAsBytes = blob.getBytes(1, blobLength);
+                        //release the blob and free up memory. (since JDBC 4.0)
+                        blob.free();
+                         imageString = "data:image/png;base64,"+Base64.encodeBase64String(blobAsBytes);
+                        System.out.println("imageString:"+imageString);
+                        }
+                   //reading image
+                   %>
+                   <h1><%=rs.getString(1)%></h1>
+                   <img src="<%=imageString%>"/>
+                   <p>
+                   <% 
+                       out.print(rs.getString(3));
+                   }%>
+                   </p>
             </div>
-            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 right-menu">
+            
+         </div>
+             
+             <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 right-menu">
                <!-- Carousel starts here-->
                <div class="">
                <div class="panel panel-default">
@@ -423,7 +434,7 @@
                                     <tbody>
                                        <tr>
                                           <td><img id="scrollimg1" src="" width="60" class="img-circle"></td>
-                                          <td><a class="rmlink" href="#" target="_blank"><span class="heading-span" id="nheadin1"></span></a></td>
+                                          <td><a class="rmlink" href="#"><span id="nheadin1"></span></a></td>
                                        </tr>
                                     </tbody>
                                  </table>
@@ -433,7 +444,7 @@
                                     <tbody>
                                        <tr>
                                           <td><img id="scrollimg2" src="" width="60" class="img-circle"></td>
-                                          <td><a class="rmlink" href="#" target="_blank"><span class="heading-span" id="nheadin2"></span></a></td>
+                                          <td><a class="rmlink" href="#"><span id="nheadin2"></span></a></td>
                                        </tr>
                                     </tbody>
                                  </table>
@@ -443,7 +454,7 @@
                                     <tbody>
                                        <tr>
                                           <td><img id="scrollimg3" src="" width="60" class="img-circle"></td>
-                                          <td><a class="rmlink" href="#" target="_blank"><span class="heading-span" id="nheadin3"></span></a></td>
+                                          <td><a class="rmlink" href="#"><span id="nheadin3"></span></a></td>
                                        </tr>
                                     </tbody>
                                  </table>
@@ -453,7 +464,7 @@
                                     <tbody>
                                        <tr>
                                           <td><img id="scrollimg4" src="" width="60" class="img-circle"></td>
-                                          <td><a class="rmlink" href="#" target="_blank"><span class="heading-span" id="nheadin4"></span></a></td>
+                                          <td><a class="rmlink" href="#"><span id="nheadin4"></span></a></td>
                                        </tr>
                                     </tbody>
                                  </table>
@@ -463,7 +474,7 @@
                                     <tbody>
                                        <tr>
                                           <td><img id="scrollimg5" src="" width="60" class="img-circle"></td>
-                                          <td><a class="rmlink" href="#" target="_blank"><span class="heading-span" id="nheadin5"></span></a></td>
+                                          <td><a class="rmlink" href="#"><span id="nheadin5"></span></a></td>
                                        </tr>
                                     </tbody>
                                  </table>
@@ -473,7 +484,7 @@
                                     <tbody>
                                        <tr>
                                           <td><img id="scrollimg6" src="" width="60" class="img-circle"></td>
-                                          <td><a class="rmlink" href="#" target="_blank"><span class="heading-span" id="nheadin6"></span></a></td>
+                                          <td><a class="rmlink" href="#"><span id="nheadin6"></span></a></td>
                                        </tr>
                                     </tbody>
                                  </table>
@@ -483,7 +494,7 @@
                                     <tbody>
                                        <tr>
                                           <td><img id="scrollimg7" src="" width="60" class="img-circle"></td>
-                                          <td><a class="rmlink" href="#" target="_blank"><span class="heading-span"  id="nheadin7"></span></a></td>
+                                          <td><a class="rmlink" href="#"><span id="nheadin7"></span></a></td>
                                        </tr>
                                     </tbody>
                                  </table>
@@ -496,8 +507,7 @@
             </div>
                <!--Carousel ends here-->
             </div>
-         </div>
       </div>
    </body>
-</html> 
+</html>
 <!--Dedicated to SHYM-->

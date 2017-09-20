@@ -38,6 +38,7 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException
              {
+                 System.out.println("in login servlet.......... ");
          String userName=request.getParameter("username");  
          String password=request.getParameter("password");  
         DatabaseUtil dbUtil = new DatabaseUtil();

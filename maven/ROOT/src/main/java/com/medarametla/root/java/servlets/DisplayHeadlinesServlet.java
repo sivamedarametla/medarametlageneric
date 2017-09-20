@@ -46,14 +46,17 @@ public class DisplayHeadlinesServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
+        System.out.println("in process request method.........");
         Connection con = null;
         try{
         JSONArray latestNews
                 = new JSONArray();
         DatabaseUtil dbUtil = new DatabaseUtil();
+        System.out.println("before getting database connection:"+dbUtil);
          con = dbUtil.getDbConnection();
         System.out.println("con......"+con);
         PreparedStatement ps = null;
@@ -65,6 +68,7 @@ public class DisplayHeadlinesServlet extends HttpServlet {
                     int newsCounter = 1;
                     while (rs.next()) {
                         JSONObject headingNewsPair = new JSONObject();
+                        headingNewsPair.put("s_no", rs.getInt(1));
                         headingNewsPair.put("heading", rs.getString(2));
                         headingNewsPair.put("news_description", rs.getString(3));
                         //news.put("news"+newsCounter, headingNewsPair);
@@ -95,7 +99,7 @@ public class DisplayHeadlinesServlet extends HttpServlet {
             System.out.println("Exception while reading Latest news:"+e);
     }
         finally{
-        con.close();
+        //con.close();
         }
 
     }

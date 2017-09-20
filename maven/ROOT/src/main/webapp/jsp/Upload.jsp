@@ -116,7 +116,7 @@
 
         </form>
     </center>
-            <center>
+    <center>
         <h1>Advertisements Authoring</h1>
         <form method="post" action=<%=request.getContextPath()%> "/uploadServlet" enctype="multipart/form-data">
             <table border="0">
@@ -139,6 +139,32 @@
                 </tr>
             </table>
                         <input type="hidden" name="article_type" value="advertisement"/>
+
+        </form>
+    </center>
+    <center>
+        <h1>Quotation Authoring</h1>
+        <form method="post" action=<%=request.getContextPath()%> "/uploadServlet" enctype="multipart/form-data">
+            <table border="0">
+                <tr>
+                    <td>Quotation Headline: </td>
+                    <td><input type="text" name="news_heading"/></td> 
+                </tr>
+                <tr>
+                    <td>Quotation Description: </td>
+                    <td><input type="text" name="news_description"/></td>
+                </tr>
+                <tr>
+                    <td>Quotation Photo: </td>
+                    <td><input type="file" name="photo" size="50"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="Save">
+                    </td>
+                </tr>
+            </table>
+                        <input type="hidden" name="article_type" value="quotation"/>
 
         </form>
     </center>
